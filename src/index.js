@@ -3,7 +3,7 @@
 require('./db/mongoose'); //Acá requiero la conexion hecha en mongooase
 const express = require ('express');
 const app = express ();
-const port = 3001;
+const port = process.env.PORT || 3001;
 const Producto = require ('./model/productos');
 const Contacto = require ('./model/contacto');
 const cors = require('cors')
@@ -15,16 +15,28 @@ app.use(cors())
 /*------------Acá empieza para productos-----*/
 
 // Para mostrar los productos utilizo el metodo 'get
-// app.get('/productos/:categoria', (req,res) => {
-//     const categoria = req.params.categoria
-//     Producto.find(
-//         {categoria: categoria}
-//     )
-//     .then((result) => {
-//         res.send(result)
-//     })
-//     .catch(err => res.status(404).send(err));
-// })
+app.get('/productos', (req,res) => {
+  
+    Producto.find(
+        
+    )
+    .then((result) => {
+        res.send(result)
+    })
+    .catch(err => res.status(404).send(err));
+})
+
+// Para buscar productos por categoria.
+app.get('/productos/:categoria', (req,res) => {
+    const categoria = req.params.categoria
+    Producto.find(
+        {categoria: categoria}
+    )
+    .then((result) => {
+        res.send(result)
+    })
+    .catch(err => res.status(404).send(err));
+})
 
 // Para crear los productos utilizo el metodo 'post'
 app.post('/productos', (req,res) =>{
